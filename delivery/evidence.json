@@ -54,7 +54,13 @@
     "The docs were generated with Sourcey v3.6.4 using its godoc adapter against the pinned snapshot godoc.json (sha256 a5da98b6e8969e9b527195d197e3f8a3a1d6e76eb1be37cf5805eee172d5de28); the build emitted a navigable site with a package index, two package reference pages, a search index, an llms.txt, and a sitemap.",
     "The site is live and loads for an anonymous visitor at https://samedaydesk.com/docs/go-chi-chi/: the index, package-root.html, pkg-middleware.html, sourcey.css, sourcey.js, llms.txt, and sitemap.xml each return HTTP 200.",
     "The docs live under samedaydesk.com, a maintained product site that serves as a durable public home, not a placeholder, sandbox, preview, or personal throwaway host.",
-    "The work is reproducible: this repository pins the exact godoc snapshot, the sourcey.config.ts, the full generated site, the governed audit skill, and the sealed receipt; running 'sourcey build' regenerates the site and 'runx verify' re-checks the receipt."
+    "The work is reproducible: this repository pins the exact godoc snapshot, the sourcey.config.ts, the full generated site, the governed audit skill, and the sealed receipt; running 'sourcey build' regenerates the site and 'runx verify' re-checks the receipt.",
+    "Generating the reference surfaced three real, maintainer-facing gaps (detailed in report.md): 12 exported symbols lack doc comments and render as bare signatures (functions NewPattern and PrintPrettyStack; types HeaderRoute, HeaderRouter, Pattern; methods HeaderRouter.Handler/Route/RouteAny/RouteDefault, HeaderRoute.IsMatch, Pattern.Match, ChainHandler.ServeHTTP); the snapshot surfaces zero runnable examples for either package, so high-traffic middleware (Logger, Recoverer, Throttle, Compress) has no usage snippets; and the generated pages carry no source deep-links back to the pinned github.com/go-chi/chi blobs despite the snapshot holding per-symbol source positions."
+  ],
+  "documentation_gaps": [
+    { "gap": "undocumented_exported_symbols", "count": 12, "examples": ["middleware.HeaderRouter", "middleware.NewPattern", "middleware.Pattern.Match", "chi.ChainHandler.ServeHTTP"], "why": "Exported routing helpers render as bare signatures with no prose; standard exported-comment lints flag them; fixing improves canonical godoc too." },
+    { "gap": "no_runnable_examples", "count": 0, "why": "Neither package surfaces Example functions, so the highest-traffic middleware (Logger, Recoverer, Throttle, Compress, BasicAuth) has no usage snippets in the reference." },
+    { "gap": "no_source_deep_links", "why": "The godoc snapshot has per-symbol source positions (e.g. chain.go:24) but the built site links to no github.com/go-chi/chi blob at the pinned commit, so readers cannot jump from a symbol to its exact source." }
   ],
   "dogfood": {
     "generator_command": "sourcey build -o dist  (godoc adapter, snapshot mode, config baseUrl /docs/go-chi-chi)",
