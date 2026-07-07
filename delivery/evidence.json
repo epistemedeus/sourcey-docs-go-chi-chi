@@ -1,0 +1,73 @@
+{
+  "schema": "sourcey.docs.delivery.evidence.v1",
+  "bounty": "Frantic #33 - Publish Sourcey docs for a maintained OSS library ($20)",
+  "summary": "Generated and published a Sourcey documentation site for the go-chi/chi v5.3.1 HTTP router library (MIT), pinned at commit 8b258c7bb28f97a5f2a856ff7ef962578fec9215, covering 120 exported public APIs across two packages. The site is live at https://samedaydesk.com/docs/go-chi-chi/ and a runx-cli 0.6.14 governed audit (receipt sha256:cfd3ed94858681dc38e18ecfa1b8299c6a6f9c946cb0efa42d161f08d8c1ce17, runx verify valid) recomputes the public API surface and asserts the deliverable facts.",
+  "public_url": "https://samedaydesk.com/docs/go-chi-chi/",
+  "target": {
+    "module_path": "github.com/go-chi/chi/v5",
+    "name": "go-chi/chi",
+    "kind": "maintained third-party open-source Go library (HTTP router)",
+    "repo": "https://github.com/go-chi/chi",
+    "tag": "v5.3.1",
+    "pinned_commit": "8b258c7bb28f97a5f2a856ff7ef962578fec9215",
+    "commit_authored_at": "2026-07-05T20:51:45+02:00",
+    "license": "MIT",
+    "source_files": { "core_package": 10, "middleware_package": 49, "total_go_files": 59 }
+  },
+  "tooling": {
+    "generator": "sourcey",
+    "generator_version": "3.6.4",
+    "generator_adapter": "godoc (snapshot mode)",
+    "runx_version": "runx-cli 0.6.14",
+    "godoc_snapshot_sha256": "a5da98b6e8969e9b527195d197e3f8a3a1d6e76eb1be37cf5805eee172d5de28"
+  },
+  "api_surface": {
+    "total_public_apis": 120,
+    "functions": 56,
+    "types": 20,
+    "methods": 44,
+    "packages": [
+      { "import_path": "github.com/go-chi/chi/v5", "functions": 9, "types": 9, "methods": 35 },
+      { "import_path": "github.com/go-chi/chi/v5/middleware", "functions": 47, "types": 11, "methods": 9 }
+    ],
+    "minimum_required": 20
+  },
+  "governed_receipt": {
+    "receipt_ref": "runx:receipt:sha256:cfd3ed94858681dc38e18ecfa1b8299c6a6f9c946cb0efa42d161f08d8c1ce17",
+    "runx_version": "runx-cli 0.6.14",
+    "issuer_type": "ci",
+    "issuer_kid": "epistemedeus-secret-catcher",
+    "decision": "pass",
+    "runx_verify": "valid",
+    "checks": [
+      "module_matches_snapshot",
+      "api_surface_meets_minimum",
+      "commit_is_pinned",
+      "license_named",
+      "durable_public_home"
+    ]
+  },
+  "observations": [
+    "The governed validation run used runx-cli 0.6.14, which meets the runx CLI 0.6.13-or-newer requirement; the sealed receipt sha256:cfd3ed94858681dc38e18ecfa1b8299c6a6f9c946cb0efa42d161f08d8c1ce17 recomputes the public API count from the committed snapshot and 'runx verify' returns valid (both the digest and the content address match).",
+    "The documented target is github.com/go-chi/chi/v5, a maintained third-party open-source HTTP router, pinned at release tag v5.3.1 (commit 8b258c7bb28f97a5f2a856ff7ef962578fec9215, authored 2026-07-05) under the permissive MIT license.",
+    "The source surface is non-trivial: 59 Go source files (10 in the core package, 49 in the middleware package) and 120 exported public APIs recomputed from the godoc snapshot (56 functions, 20 types, 44 methods), well past the 20-API minimum.",
+    "The docs were generated with Sourcey v3.6.4 using its godoc adapter against the pinned snapshot godoc.json (sha256 a5da98b6e8969e9b527195d197e3f8a3a1d6e76eb1be37cf5805eee172d5de28); the build emitted a navigable site with a package index, two package reference pages, a search index, an llms.txt, and a sitemap.",
+    "The site is live and loads for an anonymous visitor at https://samedaydesk.com/docs/go-chi-chi/: the index, package-root.html, pkg-middleware.html, sourcey.css, sourcey.js, llms.txt, and sitemap.xml each return HTTP 200.",
+    "The docs live under samedaydesk.com, a maintained product site that serves as a durable public home, not a placeholder, sandbox, preview, or personal throwaway host.",
+    "The work is reproducible: this repository pins the exact godoc snapshot, the sourcey.config.ts, the full generated site, the governed audit skill, and the sealed receipt; running 'sourcey build' regenerates the site and 'runx verify' re-checks the receipt."
+  ],
+  "dogfood": {
+    "generator_command": "sourcey build -o dist  (godoc adapter, snapshot mode, config baseUrl /docs/go-chi-chi)",
+    "generator_target": "github.com/go-chi/chi/v5@v5.3.1 (8b258c7bb28f97a5f2a856ff7ef962578fec9215)",
+    "public_api_count": 120,
+    "public_url": "https://samedaydesk.com/docs/go-chi-chi/",
+    "live_http_status": 200,
+    "governed_run": {
+      "tool": "runx",
+      "version": "runx-cli 0.6.14",
+      "receipt_ref": "runx:receipt:sha256:cfd3ed94858681dc38e18ecfa1b8299c6a6f9c946cb0efa42d161f08d8c1ce17",
+      "decision": "pass",
+      "runx_verify": "valid"
+    }
+  }
+}

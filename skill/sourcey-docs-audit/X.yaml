@@ -1,0 +1,83 @@
+skill: sourcey-docs-audit
+version: "0.1.0"
+
+catalog:
+  kind: skill
+  audience: public
+  visibility: public
+  role: canonical
+
+runx:
+  mutating: false
+  idempotency:
+    key: godoc_sha256
+  scopes:
+    - docs.read
+  policy:
+    data_classification: public_oss_api_metadata
+    network:
+      allowed: []
+      forbidden:
+        - any network access
+        - posting or publishing documents
+        - sending messages or assigning tasks
+    verifier_notes:
+      - Recomputes the exported public API count from the committed godoc snapshot and asserts it meets the declared minimum.
+      - Verifies the documented target is pinned to a 40-hex commit and carries a named license.
+      - Verifies the published documentation URL sits under the declared durable public home.
+      - Reads only local public data; performs no network, publish, or mutation. A failed assertion is a governed stop, not a silent pass.
+  artifacts:
+    emits:
+      - sourcey_docs_audit_result
+
+harness:
+  cases:
+    - name: chi-v5-meets-bar
+      runner: default
+      inputs:
+        module_path: github.com/go-chi/chi/v5
+        tag: v5.3.1
+        pinned_commit: 8b258c7bb28f97a5f2a856ff7ef962578fec9215
+        license: MIT
+        public_url: https://samedaydesk.com/docs/go-chi-chi/
+        min_apis: 20
+      expect:
+        status: sealed
+    - name: impossible-minimum-stops
+      runner: default
+      inputs:
+        module_path: github.com/go-chi/chi/v5
+        tag: v5.3.1
+        pinned_commit: 8b258c7bb28f97a5f2a856ff7ef962578fec9215
+        license: MIT
+        public_url: https://samedaydesk.com/docs/go-chi-chi/
+        min_apis: 100000
+      expect:
+        status: failure
+
+runners:
+  default:
+    default: true
+    type: cli-tool
+    command: /usr/bin/env
+    args:
+      - node
+      - run.mjs
+    scopes:
+      - docs.read
+    policy:
+      reads:
+        - committed godoc snapshot and caller-supplied target metadata
+      calls: []
+      writes: []
+      disallows:
+        - network access
+        - posting or publishing documents
+        - executing caller-supplied code
+    inputs:
+      module_path: { type: string, required: true }
+      tag: { type: string, required: true }
+      pinned_commit: { type: string, required: true }
+      license: { type: string, required: true }
+      public_url: { type: string, required: true }
+      min_apis: { type: number, required: false }
